@@ -1,3 +1,4 @@
+import Swal from "sweetalert2";
 import { TodoInterface } from "../interfaces/TodoInterface";
 import Ui from "./Ui";
 
@@ -44,6 +45,16 @@ class Store {
 
         localStorage.setItem("todos", JSON.stringify(newTodos));
         Store.displayTodos()
+
+        Swal.fire({
+            title: 'Status todo changed',
+            icon: 'info',
+            showConfirmButton : false,
+            timerProgressBar : true,
+            timer : 3000,
+            toast : true,
+            position: 'top',
+        })
     }
 }
 
