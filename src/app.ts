@@ -27,16 +27,18 @@ class Ui {
                 <td>${todo.title}</td>
                 <td><input type="checkbox" ${todo.status ? "checked" : ""} class="form-check-input"></td>
              <td>
-                    <button class="btn btn-sm btn-outline-danger" onclick="ui.removeTodo(event)">Delete</button>
+                    <button class="btn btn-sm btn-outline-danger" onclick="ui.removeTodo(event , ${todo.id})">Delete</button>
             </td>
         `;
 
         list?.appendChild(tr);
   }
 
-  removeTodo(e: Event){
+  removeTodo(e: Event , todoId:number){
     const element = e.target as HTMLElement;
     element.parentElement!.parentElement?.remove()
+
+    Store.removeTodo(todoId)
   }
 }
 
@@ -53,15 +55,13 @@ class Store {
         return todos;
     }
 
-    // static displayTodos(){
-    //     const todos = Store.getTodos();
+    static displayTodos(){
+        const todos = Store.getTodos();
 
-    //     const ui = new UI();
-
-    //     todos.forEach((todo) => {
-    //         ui.addTodoToList(todo)
-    //     })
-    // }
+        todos.forEach((todo) => {
+            ui.addTodoToList(todo)
+        })
+    }
 
     static setTodo(todo: TodoInterface) {
         const todos = Store.getTodos();
@@ -69,12 +69,12 @@ class Store {
         localStorage.setItem("todos", JSON.stringify(todos));
     }
 
-    // static removeTodo(id: number){
-    //     const todos = Store.getTodos();
-    //     const newTodos = todos.filter((todo) => todo.id !== id);
+    static removeTodo(id: number){
+        const todos = Store.getTodos();
+        const newTodos = todos.filter((todo) => todo.id !== id);
 
-    //     localStorage.setItem("todos", JSON.stringify(newTodos));
-    // }
+        localStorage.setItem("todos", JSON.stringify(newTodos));
+    }
 
     // static changeStatusTodo(id: number){
     //     const todos = Store.getTodos();
@@ -112,3 +112,6 @@ const formSubmitionHandler = (e: Event) => {
 };
 
 form.addEventListener("submit", formSubmitionHandler);
+window.addEventListener('load', () => {
+    Store.displayTodos()
+})
