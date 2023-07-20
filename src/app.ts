@@ -2,6 +2,7 @@ import {TodoInterface} from "./interfaces/TodoInterface";
 import Store from "./classes/Store";
 import Todo from "./classes/Todo";
 import Ui from "./classes/Ui";
+import Swal from "sweetalert2";
 
 
 const ui = new Ui();
@@ -28,6 +29,15 @@ const formSubmitionHandler = (e: Event) => {
     const todo = new Todo(todoObj);
     ui.addTodoToList(todo);
     Store.setTodo(todo)
+    Swal.fire({
+      title: 'Add New todo',
+      icon: 'success',
+      showConfirmButton : false,
+      timerProgressBar : true,
+      timer : 3000,
+      toast : true,
+      position: 'top',
+  })
   }
 };
 
