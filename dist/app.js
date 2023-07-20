@@ -15,10 +15,39 @@ class Ui {
                 <td>${todo.title}</td>
                 <td><input type="checkbox" ${todo.status ? "checked" : ""} class="form-check-input"></td>
              <td>
-                    <button class="btn btn-sm btn-outline-danger">Delete</button>
+                    <button class="btn btn-sm btn-outline-danger" onclick="ui.removeTodo(event)">Delete</button>
             </td>
         `;
         list === null || list === void 0 ? void 0 : list.appendChild(tr);
+    }
+    removeTodo(e) {
+        var _a;
+        const element = e.target;
+        (_a = element.parentElement.parentElement) === null || _a === void 0 ? void 0 : _a.remove();
+    }
+}
+class Store {
+    static getTodos() {
+        let todos;
+        if (localStorage.getItem("todos")) {
+            todos = JSON.parse(localStorage.getItem("todos"));
+        }
+        else {
+            todos = [];
+        }
+        return todos;
+    }
+    // static displayTodos(){
+    //     const todos = Store.getTodos();
+    //     const ui = new UI();
+    //     todos.forEach((todo) => {
+    //         ui.addTodoToList(todo)
+    //     })
+    // }
+    static setTodo(todo) {
+        const todos = Store.getTodos();
+        todos.push(todo);
+        localStorage.setItem("todos", JSON.stringify(todos));
     }
 }
 const ui = new Ui();
@@ -41,6 +70,7 @@ const formSubmitionHandler = (e) => {
         inputElem.value = "";
         const todo = new Todo(todoObj);
         ui.addTodoToList(todo);
+        Store.setTodo(todo);
     }
 };
 form.addEventListener("submit", formSubmitionHandler);

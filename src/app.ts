@@ -27,12 +27,61 @@ class Ui {
                 <td>${todo.title}</td>
                 <td><input type="checkbox" ${todo.status ? "checked" : ""} class="form-check-input"></td>
              <td>
-                    <button class="btn btn-sm btn-outline-danger">Delete</button>
+                    <button class="btn btn-sm btn-outline-danger" onclick="ui.removeTodo(event)">Delete</button>
             </td>
         `;
 
         list?.appendChild(tr);
   }
+
+  removeTodo(e: Event){
+    const element = e.target as HTMLElement;
+    element.parentElement!.parentElement?.remove()
+  }
+}
+
+class Store {
+    static getTodos(): TodoInterface[] {
+        let todos: TodoInterface[];
+
+        if (localStorage.getItem("todos")) {
+            todos = JSON.parse(localStorage.getItem("todos")!);
+        } else {
+            todos = [];
+        }
+
+        return todos;
+    }
+
+    // static displayTodos(){
+    //     const todos = Store.getTodos();
+
+    //     const ui = new UI();
+
+    //     todos.forEach((todo) => {
+    //         ui.addTodoToList(todo)
+    //     })
+    // }
+
+    static setTodo(todo: TodoInterface) {
+        const todos = Store.getTodos();
+        todos.push(todo);
+        localStorage.setItem("todos", JSON.stringify(todos));
+    }
+
+    // static removeTodo(id: number){
+    //     const todos = Store.getTodos();
+    //     const newTodos = todos.filter((todo) => todo.id !== id);
+
+    //     localStorage.setItem("todos", JSON.stringify(newTodos));
+    // }
+
+    // static changeStatusTodo(id: number){
+    //     const todos = Store.getTodos();
+    //     const newTodos = todos.map((todo) => todo.id === id ? { ...todo, status: !todo.status } : todo);
+
+    //     localStorage.setItem("todos", JSON.stringify(newTodos));
+    // }
 }
 
 const ui = new Ui();
@@ -58,6 +107,7 @@ const formSubmitionHandler = (e: Event) => {
     inputElem.value = "";
     const todo = new Todo(todoObj);
     ui.addTodoToList(todo);
+    Store.setTodo(todo)
   }
 };
 
