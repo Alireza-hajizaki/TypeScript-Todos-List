@@ -1,5 +1,5 @@
-import { TodoInterface } from "../interfaces/TodoInterface.js";
-import Ui from "./Ui.js";
+import { TodoInterface } from "../interfaces/TodoInterface";
+import Ui from "./Ui";
 
 class Store {
     

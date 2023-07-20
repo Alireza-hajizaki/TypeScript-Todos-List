@@ -1,7 +1,7 @@
-import {TodoInterface} from "./interfaces/TodoInterface.js";
-import Store from "./classes/Store.js";
-import Todo from "./classes/Todo.js";
-import Ui from "./classes/Ui.js";
+import {TodoInterface} from "./interfaces/TodoInterface";
+import Store from "./classes/Store";
+import Todo from "./classes/Todo";
+import Ui from "./classes/Ui";
 
 
 const ui = new Ui();
