@@ -17,6 +17,7 @@ class Todo implements TodoInterface {
 }
 
 class Ui {
+    
   addTodoToList(todo: TodoInterface) {
 
     const list = $.getElementById('todo-list');
@@ -25,7 +26,7 @@ class Ui {
     tr.innerHTML = `
             <th>${todo.id}</th>
                 <td>${todo.title}</td>
-                <td><input type="checkbox" ${todo.status ? "checked" : ""} class="form-check-input"></td>
+                <td><input type="checkbox" ${todo.status ? "checked" : ""} class="form-check-input" onclick="Store.changeStatusTodo(${todo.id})"></td>
              <td>
                     <button class="btn btn-sm btn-outline-danger" onclick="ui.removeTodo(event , ${todo.id})">Delete</button>
             </td>
@@ -41,6 +42,7 @@ class Ui {
     Store.removeTodo(todoId)
   }
 }
+
 
 class Store {
     static getTodos(): TodoInterface[] {
@@ -76,12 +78,12 @@ class Store {
         localStorage.setItem("todos", JSON.stringify(newTodos));
     }
 
-    // static changeStatusTodo(id: number){
-    //     const todos = Store.getTodos();
-    //     const newTodos = todos.map((todo) => todo.id === id ? { ...todo, status: !todo.status } : todo);
+    static changeStatusTodo(id: number){
+        const todos = Store.getTodos();
+        const newTodos = todos.map((todo) => todo.id === id ? { ...todo, status: !todo.status } : todo);
 
-    //     localStorage.setItem("todos", JSON.stringify(newTodos));
-    // }
+        localStorage.setItem("todos", JSON.stringify(newTodos));
+    }
 }
 
 const ui = new Ui();

@@ -13,7 +13,7 @@ class Ui {
         tr.innerHTML = `
             <th>${todo.id}</th>
                 <td>${todo.title}</td>
-                <td><input type="checkbox" ${todo.status ? "checked" : ""} class="form-check-input"></td>
+                <td><input type="checkbox" ${todo.status ? "checked" : ""} class="form-check-input" onclick="Store.changeStatusTodo(${todo.id})"></td>
              <td>
                     <button class="btn btn-sm btn-outline-danger" onclick="ui.removeTodo(event , ${todo.id})">Delete</button>
             </td>
@@ -52,6 +52,11 @@ class Store {
     static removeTodo(id) {
         const todos = Store.getTodos();
         const newTodos = todos.filter((todo) => todo.id !== id);
+        localStorage.setItem("todos", JSON.stringify(newTodos));
+    }
+    static changeStatusTodo(id) {
+        const todos = Store.getTodos();
+        const newTodos = todos.map((todo) => todo.id === id ? Object.assign(Object.assign({}, todo), { status: !todo.status }) : todo);
         localStorage.setItem("todos", JSON.stringify(newTodos));
     }
 }
