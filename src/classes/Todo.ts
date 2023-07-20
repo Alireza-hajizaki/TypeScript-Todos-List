@@ -1,4 +1,4 @@
-import { TodoInterface } from "../interfaces/TodoInterface.js";
+import { TodoInterface } from "../interfaces/TodoInterface";
 
 class Todo implements TodoInterface {
     id: number;
