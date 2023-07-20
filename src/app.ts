@@ -23,6 +23,7 @@ class Ui {
     const list = $.getElementById('todo-list');
 
     const tr = $.createElement("tr");
+    tr.className=`${todo.status && "opacity-50 text-decoration-line-through"}`
     tr.innerHTML = `
             <th>${todo.id}</th>
                 <td>${todo.title}</td>
@@ -45,6 +46,7 @@ class Ui {
 
 
 class Store {
+    
     static getTodos(): TodoInterface[] {
         let todos: TodoInterface[];
 
@@ -58,8 +60,9 @@ class Store {
     }
 
     static displayTodos(){
+        const list = $.getElementById('todo-list')!;
+        list.innerHTML=""
         const todos = Store.getTodos();
-
         todos.forEach((todo) => {
             ui.addTodoToList(todo)
         })
@@ -83,6 +86,7 @@ class Store {
         const newTodos = todos.map((todo) => todo.id === id ? { ...todo, status: !todo.status } : todo);
 
         localStorage.setItem("todos", JSON.stringify(newTodos));
+        Store.displayTodos()
     }
 }
 
