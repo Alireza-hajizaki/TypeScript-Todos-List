@@ -1,69 +1,6 @@
-"use strict";
-class Todo {
-    constructor(todo) {
-        this.id = todo.id;
-        this.title = todo.title;
-        this.status = todo.status;
-    }
-}
-class Ui {
-    addTodoToList(todo) {
-        const list = $.getElementById('todo-list');
-        const tr = $.createElement("tr");
-        tr.className = `${todo.status && "opacity-50 text-decoration-line-through"}`;
-        tr.innerHTML = `
-            <th>${todo.id}</th>
-                <td>${todo.title}</td>
-                <td><input type="checkbox" ${todo.status ? "checked" : ""} class="form-check-input" onclick="Store.changeStatusTodo(${todo.id})"></td>
-             <td>
-                    <button class="btn btn-sm btn-outline-danger" onclick="ui.removeTodo(event , ${todo.id})">Delete</button>
-            </td>
-        `;
-        list === null || list === void 0 ? void 0 : list.appendChild(tr);
-    }
-    removeTodo(e, todoId) {
-        var _a;
-        const element = e.target;
-        (_a = element.parentElement.parentElement) === null || _a === void 0 ? void 0 : _a.remove();
-        Store.removeTodo(todoId);
-    }
-}
-class Store {
-    static getTodos() {
-        let todos;
-        if (localStorage.getItem("todos")) {
-            todos = JSON.parse(localStorage.getItem("todos"));
-        }
-        else {
-            todos = [];
-        }
-        return todos;
-    }
-    static displayTodos() {
-        const list = $.getElementById('todo-list');
-        list.innerHTML = "";
-        const todos = Store.getTodos();
-        todos.forEach((todo) => {
-            ui.addTodoToList(todo);
-        });
-    }
-    static setTodo(todo) {
-        const todos = Store.getTodos();
-        todos.push(todo);
-        localStorage.setItem("todos", JSON.stringify(todos));
-    }
-    static removeTodo(id) {
-        const todos = Store.getTodos();
-        const newTodos = todos.filter((todo) => todo.id !== id);
-        localStorage.setItem("todos", JSON.stringify(newTodos));
-    }
-    static changeStatusTodo(id) {
-        const todos = Store.getTodos();
-        const newTodos = todos.map((todo) => todo.id === id ? Object.assign(Object.assign({}, todo), { status: !todo.status }) : todo);
-        localStorage.setItem("todos", JSON.stringify(newTodos));
-        Store.displayTodos();
-    }
-}
+import Store from "./classes/Store.js";
+import Todo from "./classes/Todo.js";
+import Ui from "./classes/Ui.js";
 const ui = new Ui();
 let $ = document;
 const form = $.querySelector("#todo-form");
@@ -86,6 +23,12 @@ const formSubmitionHandler = (e) => {
         ui.addTodoToList(todo);
         Store.setTodo(todo);
     }
+};
+window.changeStatusTodo = (id) => {
+    Store.changeStatusTodo(id);
+};
+window.removeTodo = (e, id) => {
+    ui.removeTodo(e, id);
 };
 form.addEventListener("submit", formSubmitionHandler);
 window.addEventListener('load', () => {
