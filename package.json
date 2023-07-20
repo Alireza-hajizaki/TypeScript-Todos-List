@@ -1,0 +1,23 @@
+{
+  "name": "typescript-todo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tsc -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Alireza-hajizaki/TypeScript-Todos-List.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Alireza-hajizaki/TypeScript-Todos-List/issues"
+  },
+  "homepage": "https://github.com/Alireza-hajizaki/TypeScript-Todos-List#readme",
+  "devDependencies": {
+    "typescript": "^5.1.6"
+  }
+}
